@@ -1,4 +1,5 @@
-import {simpleHash} from '../hash/hash';
+import {findNextPrime} from '../utils/primeNumber';
+import {simpleHash} from './hash/hash';
 
 interface HashNode {
   key: string | number | undefined;
@@ -9,6 +10,7 @@ interface HashNode {
 class OpenAddress {
   private nodes: (HashNode | undefined)[];
   private capacity = 13;
+  private numberOfElemenets = 0;
   constructor(capacity?: number, initialValues?: HashNode[]) {
     if (capacity) {
       this.capacity = capacity;
@@ -46,6 +48,10 @@ class OpenAddress {
       return false;
     }
 
+    if (this.capacity * 0.6 < this.numberOfElemenets) {
+      this.reHash();
+    }
+
     const hashedKey = simpleHash(key, this.capacity);
     const newHashNode: HashNode = {
       key: key,
@@ -65,6 +71,7 @@ class OpenAddress {
       }
     }
     this.nodes[cursor] = newHashNode;
+    this.numberOfElemenets++;
     return true;
   }
 
@@ -86,6 +93,7 @@ class OpenAddress {
     this.nodes[cursor]!.key = undefined;
     this.nodes[cursor]!.value = undefined;
     this.nodes[cursor]!.status = 'DELETED';
+    this.numberOfElemenets--;
     return true;
   }
 
@@ -97,7 +105,18 @@ class OpenAddress {
     });
   }
 
-  reHash() {}
+  reHash() {
+    const temp = [...this.nodes];
+    this.capacity = findNextPrime(this.capacity * 2);
+    this.nodes = new Array(this.capacity);
+    this.numberOfElemenets = 0;
+
+    temp.forEach(e => {
+      if (e?.key && e?.value) {
+        this.add(e?.key, e?.value);
+      }
+    });
+  }
 }
 
 export default OpenAddress;

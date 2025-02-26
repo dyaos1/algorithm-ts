@@ -1,4 +1,5 @@
-import {simpleHash} from '../hash/hash';
+import {findNextPrime} from '../utils/primeNumber';
+import {simpleHash} from './hash/hash';
 
 interface HashNode {
   key: number | string;
@@ -9,6 +10,8 @@ interface HashNode {
 class HashMap {
   private nodes: (HashNode | undefined)[] = [];
   private size = 13;
+  private depth = 0;
+  private depthLimit = 5;
   constructor(
     size?: number,
     initialValues?: {key: number | string; value: string}[],
@@ -35,9 +38,16 @@ class HashMap {
   }
 
   add(key: number | string, value: string): boolean {
+    return this.addNode(key, value, true);
+  }
+
+  addNode(key: number | string, value: string, reHash: boolean): boolean {
     // 키 값 중복
     if (this.get(key)) {
       return false;
+    }
+    if (this.depth > this.depthLimit && reHash) {
+      this.reHash();
     }
 
     const hashedKey = simpleHash(key, this.size);
@@ -54,8 +64,13 @@ class HashMap {
       return true;
     }
 
+    let depth = 1;
     while (cursor?.next) {
       cursor = cursor.next;
+      depth++;
+    }
+    if (this.depth < depth) {
+      this.depth = depth;
     }
     cursor.next = newHashNode;
     return true;
@@ -73,14 +88,19 @@ class HashMap {
       return true;
     }
 
+    let depth = 1;
     while (cursor?.next) {
       if (cursor.next.key === key) {
         break;
       }
       cursor = cursor.next;
+      depth++;
     }
     if (!cursor) {
       return false;
+    }
+    if (depth > this.depth) {
+      this.depth = depth;
     }
     cursor.next = cursor?.next?.next;
     return true;
@@ -99,7 +119,29 @@ class HashMap {
     });
   }
 
-  reHash() {}
+  reHash() {
+    const temp = [...this.nodes];
+    this.size = findNextPrime(this.size * 2);
+    console.log(`rehash newSize: ${this.size}`);
+    this.nodes = new Array(this.size);
+    this.depth = 0;
+
+    temp.forEach(e => {
+      let cursor = e;
+      if (cursor?.key && cursor.value) {
+        this.addNode(cursor.key, cursor.value, false);
+      }
+      while (cursor?.next) {
+        cursor = cursor.next;
+        if (cursor?.key && cursor.value) {
+          this.addNode(cursor.key, cursor.value, false);
+        }
+      }
+    });
+
+    // 리미트 증가
+    this.depthLimit++;
+  }
 }
 
 export default HashMap;
