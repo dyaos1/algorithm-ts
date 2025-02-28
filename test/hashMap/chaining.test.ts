@@ -18,5 +18,5 @@ test('hashMap: Chaining test - mass', () => {
   expect(hashMap.get(900)).toBe('900');
   expect(hashMap.remove(900)).toBe(true);
   expect(hashMap.get(900)).toBe(undefined);
-  hashMap.dumps();
+  // hashMap.dumps();
 });
