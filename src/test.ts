@@ -1,8 +1,9 @@
 import shuffle from './utils/shuffle';
-import binaryInsertionSort from './sort/binaryInsertionSort';
+import mergeSort from './sort/mergeSort';
 
 const test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 shuffle(test);
+console.log(test);
 
-const result = binaryInsertionSort(test, (a, b) => a < b);
+const result = mergeSort(test, (a, b) => a < b);
 console.log(result);

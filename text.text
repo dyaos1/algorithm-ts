@@ -7,3 +7,18 @@
 ### window에서 npm gts init을 했을때
 package.json에 npm.cmd 가 붙어서 생성되는 경우가 있는데
 왠만하면 .cmd 제거해 주자.
+
+### mergeSort: concat 은 기존 배열을 변형하지 않고 새 배열을 반환함
+```
+// 틀린 코드
+const remain = endPartProcessed.slice(endPartCursor, endPart.length);
+newList.concat(remain)
+```
+
+```
+// 맞는 코드
+const remain = endPartProcessed.slice(endPartCursor, endPart.length);
+newList.splice(newList.length, 0, ...remain);
+```
+
+### shellSort: h값은 length / 9 보다 크면 안되고 h = h * 3 + 1이면 좋다고 한다.
