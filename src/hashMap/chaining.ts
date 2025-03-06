@@ -122,7 +122,7 @@ class HashMap {
   reHash() {
     const temp = [...this.nodes];
     this.size = findNextPrime(this.size * 2);
-    console.log(`rehash newSize: ${this.size}`);
+    // console.log(`rehash newSize: ${this.size}`);
     this.nodes = new Array(this.size);
     this.depth = 0;
 

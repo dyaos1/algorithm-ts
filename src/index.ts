@@ -1,9 +1,11 @@
-import shellSort from './sort/shellSort';
+import quickHoar from './sort/quickSorts/hoar';
 import shuffle from './utils/shuffle';
 
-const test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-shuffle(test);
-console.log(test);
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+shuffle(arr);
+console.log(arr);
+// const arr = [7, 2, 9, 1, 4, 3, 5, 6, 8, 10];
 
-const result = shellSort(test, (a, b) => a < b);
+const result = quickHoar(arr, (a, b) => a < b);
+
 console.log(result);

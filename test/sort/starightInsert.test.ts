@@ -1,11 +1,11 @@
-import straightInsertionSort from '../../src/sort/straightInsertionSort';
+import insertionSortStraight from '../../src/sort/insertionSorts/straight';
 import shuffle from '../../src/utils/shuffle';
 
 const td = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const shuffled = shuffle(td);
 
-test('shakerSort Test', () => {
-  const arranged = straightInsertionSort(shuffled, (a, b) => a < b);
+test('straightInsertionSort Test', () => {
+  const arranged = insertionSortStraight(shuffled, (a, b) => a < b);
   expect(arranged[0]).toBe(1);
   expect(arranged[1]).toBe(2);
   expect(arranged[2]).toBe(3);
@@ -17,7 +17,7 @@ test('shakerSort Test', () => {
   expect(arranged[8]).toBe(9);
   expect(arranged[9]).toBe(10);
 
-  const reversed = straightInsertionSort(shuffled, (a, b) => b < a);
+  const reversed = insertionSortStraight(shuffled, (a, b) => b < a);
   for (let i = 0; i < 10; i++) {
     expect(reversed[i]).toBe(10 - i);
   }

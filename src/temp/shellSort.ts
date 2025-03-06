@@ -38,25 +38,36 @@ function shellSortH(
   return seq;
 }
 
-function straightInsertSort(
+function shellSortH2(
   seq: number[],
   callback: (a: number, b: number) => boolean,
+  hNumber: number,
 ) {
-  const len = seq.length;
-
-  for (let i = 0; i < len - 1; i++) {
-    let candidate = seq[i];
-    let cursor = i;
-    for (let j = i + 1; j < len; j++) {
-      if (!callback(candidate, seq[j])) {
-        candidate = seq[j];
-        cursor = j;
+  let cursorA = 0;
+  while (cursorA < hNumber) {
+    let cursorB: number = cursorA;
+    while (cursorB < seq.length - hNumber) {
+      let cursorC: number = cursorB + hNumber;
+      while (cursorC < seq.length) {
+        let cursorD = cursorB;
+        while (cursorD < cursorC) {
+          if (callback(seq[cursorD], seq[cursorC])) {
+            const temp = seq[cursorC];
+            let cursorE = cursorC;
+            while (cursorD < cursorE) {
+              seq[cursorE] = seq[cursorE - hNumber];
+              cursorE--;
+            }
+            seq[cursorD] = temp;
+            break;
+          }
+          cursorD = cursorD + hNumber;
+        }
+        cursorC++;
       }
+      cursorB = cursorB + hNumber;
     }
-    for (let j = cursor; i < j; j--) {
-      seq[j] = seq[j - 1];
-    }
-    seq[i] = candidate;
+
+    cursorA++;
   }
-  return seq;
 }
