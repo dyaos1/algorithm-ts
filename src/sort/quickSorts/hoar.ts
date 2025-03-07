@@ -15,15 +15,6 @@ function hoar(
   if (lastIdx - startIdx < 5) {
     return straightInsertion(seq, startIdx, lastIdx, callback);
   }
-  // if (lastIdx - startIdx < 2) {
-  //   return seq;
-  // }
-  // if (lastIdx - startIdx === 2) {
-  //   if (!callback(seq[startIdx], seq[lastIdx])) {
-  //     [seq[startIdx], seq[lastIdx]] = [seq[lastIdx], seq[startIdx]];
-  //   }
-  //   return seq;
-  // }
   const pivot = seq[lastIdx];
   let left = startIdx;
   let right = lastIdx - 1;
